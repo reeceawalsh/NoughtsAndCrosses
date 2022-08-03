@@ -50,28 +50,32 @@ public class NoughtsAndCrosses extends Application {
             button.setFont(Font.font("Monospaced", 25));
 
             button.setOnAction((event) -> {
-                if (button.getText().equals("")) {
-                    button.setText(this.player);
-                    if (!gameFinished()) {
-                        switchTurns();
-                        textField.setText("Turn: " + this.player);
-                    } else {
-                        textField.setText("Game over! Player " + this.player + " wins!");
+                if (!gameFinished() || gameDrawn()) {
+                    if (button.getText().equals("")) {
+                        button.setText(this.player);
+                        if (!gameFinished()) {
+                            switchTurns();
+                            textField.setText("Turn: " + this.player);
+                        } else {
+                            textField.setText("Game over! Player " + this.player + " wins!");
+                        }
+                        if (gameDrawn()) {
+                            textField.setText("Game drawn!");
+                        }
                     }
                 }
             });
-
             buttons.add(button);
         }
 
         gameBoard.add(buttons.get(0), 0, 0);
-        gameBoard.add(buttons.get(1), 0, 1);
-        gameBoard.add(buttons.get(2), 0, 2);
-        gameBoard.add(buttons.get(3), 1, 0);
+        gameBoard.add(buttons.get(1), 1, 0);
+        gameBoard.add(buttons.get(2), 2, 0);
+        gameBoard.add(buttons.get(3), 0, 1);
         gameBoard.add(buttons.get(4), 1, 1);
-        gameBoard.add(buttons.get(5), 1, 2);
-        gameBoard.add(buttons.get(6), 2, 0);
-        gameBoard.add(buttons.get(7), 2, 1);
+        gameBoard.add(buttons.get(5), 2, 1);
+        gameBoard.add(buttons.get(6), 0, 2);
+        gameBoard.add(buttons.get(7), 1, 2);
         gameBoard.add(buttons.get(8), 2, 2);
 
         Scene scene = new Scene(layout);
@@ -88,7 +92,77 @@ public class NoughtsAndCrosses extends Application {
     }
 
     public boolean gameFinished() {
-        return false;
+        return winCheck(this.player);
+    }
+
+    public boolean winCheck(String player) {
+        int count = 0;
+        boolean winner = false;
+        // Check rows
+        for (int i = 0; i < 9; i++) {
+            if (i == 3 || i == 6) {
+                count = 0;
+            }
+            if (this.buttons.get(i).getText().equals(player)) {
+                count++;
+            }
+            if (count == 3) {
+                winner = true;
+                System.out.println("Won by row");
+                break;
+            }
+        }
+        count = 0;
+        // Check columns
+        for (int i = 0; i < 9; i = i + 3) {
+            if (this.buttons.get(i).getText().equals(player)) {
+                count++;
+            }
+            if (count == 3) {
+                System.out.println("Won by column");
+                winner = true;
+                break;
+            }
+            if (i == 6 || i == 7) {
+                count = 0;
+                i = i - 8;
+            }
+        }
+        count = 0;
+        // Check diagonals
+        // First diagonal
+        for (int i = 0; i < 9; i += 4) {
+            if (this.buttons.get(i).getText().equals(player)) {
+                count++;
+            }
+            if (count == 3) {
+                winner = true;
+                System.out.println("Won by 0 - 8 diagonal");
+                break;
+            }
+        }
+        count = 0;
+        // Second diagonal
+        for (int i = 2; i < 7; i += 2) {
+            if (this.buttons.get(i).getText().equals(player)) {
+                count++;
+            }
+            if (count == 3) {
+                winner = true;
+                System.out.println("Won by 2 - 6 diagonal");
+                break;
+            }
+        }
+        return winner;
+    }
+
+    public boolean gameDrawn() {
+        for (Button btn : this.buttons) {
+            if (btn.getText().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
