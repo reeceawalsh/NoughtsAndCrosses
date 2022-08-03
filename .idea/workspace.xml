@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1eca8b27-37d6-4150-9651-715522c0660a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/NoughtsAndCrosses.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/application/noughtsandcrosses/NoughtsAndCrosses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/noughtsandcrosses/NoughtsAndCrosses.java" afterDir="false" />
     </list>

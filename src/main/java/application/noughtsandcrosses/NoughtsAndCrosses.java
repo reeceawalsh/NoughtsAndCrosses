@@ -2,20 +2,17 @@ package application.noughtsandcrosses;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 public class NoughtsAndCrosses extends Application {
-
     private ArrayList<Button> buttons = new ArrayList<>();
     private String player = "X";
 
@@ -31,6 +28,7 @@ public class NoughtsAndCrosses extends Application {
         // Components
         Label textField = new Label("Turn: " + this.player);
         textField.setPadding(new Insets(20, 20, 20, 20));
+        Button newGame = new Button("New Game");
 
         // Gameboard
         GridPane gameBoard = new GridPane();
@@ -41,8 +39,22 @@ public class NoughtsAndCrosses extends Application {
         // Layout
         layout.setTop(textField);
         layout.setCenter(gameBoard);
+        layout.setBottom(newGame);
+        BorderPane.setAlignment(textField, Pos.TOP_CENTER);
+        BorderPane.setAlignment(gameBoard, Pos.CENTER);
+        BorderPane.setAlignment(newGame, Pos.BOTTOM_CENTER);
+        BorderPane.setMargin(newGame, new Insets(20, 20, 20, 20));
 
-        // Buttons
+        // New game button
+        newGame.setOnAction((event) -> {
+            for (Button button : this.buttons) {
+                button.setText("");
+            }
+            this.player = "X";
+            textField.setText("Turn: " + this.player);
+        });
+
+        // Game board buttons
         for (int i = 0; i < 9; i++){
             Button button = new Button();
             button.setMinSize(70, 70);
@@ -68,6 +80,7 @@ public class NoughtsAndCrosses extends Application {
             buttons.add(button);
         }
 
+        // Add buttons to the gameBoard
         gameBoard.add(buttons.get(0), 0, 0);
         gameBoard.add(buttons.get(1), 1, 0);
         gameBoard.add(buttons.get(2), 2, 0);
@@ -108,7 +121,6 @@ public class NoughtsAndCrosses extends Application {
             }
             if (count == 3) {
                 winner = true;
-                System.out.println("Won by row");
                 break;
             }
         }
@@ -119,7 +131,6 @@ public class NoughtsAndCrosses extends Application {
                 count++;
             }
             if (count == 3) {
-                System.out.println("Won by column");
                 winner = true;
                 break;
             }
@@ -137,7 +148,6 @@ public class NoughtsAndCrosses extends Application {
             }
             if (count == 3) {
                 winner = true;
-                System.out.println("Won by 0 - 8 diagonal");
                 break;
             }
         }
@@ -149,7 +159,6 @@ public class NoughtsAndCrosses extends Application {
             }
             if (count == 3) {
                 winner = true;
-                System.out.println("Won by 2 - 6 diagonal");
                 break;
             }
         }
