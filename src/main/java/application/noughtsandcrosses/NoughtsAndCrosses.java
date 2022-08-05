@@ -109,69 +109,41 @@ public class NoughtsAndCrosses extends Application {
     }
 
     public boolean winCheck(String player) {
-        int count = 0;
-        boolean winner = false;
-        // Check rows
-        for (int i = 0; i < 9; i++) {
-            if (i == 3 || i == 6) {
-                count = 0;
-            }
-            if (this.buttons.get(i).getText().equals(player)) {
-                count++;
-            }
-            if (count == 3) {
-                winner = true;
-                break;
-            }
-        }
-        count = 0;
-        // Check columns
-        for (int i = 0; i < 9; i = i + 3) {
-            if (this.buttons.get(i).getText().equals(player)) {
-                count++;
-            }
-            if (count == 3) {
-                winner = true;
-                break;
-            }
-            if (i == 6 || i == 7) {
-                count = 0;
-                i = i - 8;
+        int[][] results = {
+                {0, 1, 2},
+                {3, 4, 5},
+                {6, 7, 8},
+                {0, 3, 6},
+                {1, 4, 7},
+                {2, 5, 8},
+                {0, 4, 8},
+                {2, 4, 6}
+        };
+
+        for (int i = 0; i < results.length; i++) {
+            int count = 0;
+            for (int j = 0; j < results[i].length; j++) {
+                if (this.buttons.get(results[i][j]).getText().equals(player)) {
+                    count++;
+                }
+                if (count == 3) {
+                    return true;
+                }
             }
         }
-        count = 0;
-        // Check diagonals
-        // First diagonal
-        for (int i = 0; i < 9; i += 4) {
-            if (this.buttons.get(i).getText().equals(player)) {
-                count++;
-            }
-            if (count == 3) {
-                winner = true;
-                break;
-            }
-        }
-        count = 0;
-        // Second diagonal
-        for (int i = 2; i < 7; i += 2) {
-            if (this.buttons.get(i).getText().equals(player)) {
-                count++;
-            }
-            if (count == 3) {
-                winner = true;
-                break;
-            }
-        }
-        return winner;
-    }
+        return false;
+    };
 
     public boolean gameDrawn() {
+        if (winCheck(player)) {
+            return false;
+        }
         for (Button btn : this.buttons) {
             if (btn.getText().isEmpty()) {
                 return false;
             }
         }
         return true;
-    }
+    };
 }
 
